@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Student Assistant</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            text-align: center;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #response {
+            text-align: left;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎓 AI Student Assistant</h2>
+
+    <input type="text" id="student_id" value="001" placeholder="Student ID"><br>
+    <input type="text" id="query" placeholder="Ask your question..."><br>
+
+    <button onclick="askAI()">Ask AI</button>
+
+    <h3>Response:</h3>
+    <div id="response"></div>
+</div>
+
+<script>
+async function askAI() {
+    let student_id = document.getElementById("student_id").value;
+    let query = document.getElementById("query").value;
+
+    document.getElementById("response").innerText = "Thinking...";
+
+    let res = await fetch(`http://127.0.0.1:8000/gpt-chat/${student_id}?query=${query}`, {
+        method: "POST"
+    });
+
+    let data = await res.json();
+    document.getElementById("response").innerText = data.response;
+}
+</script>
+
+</body>
+</html>
